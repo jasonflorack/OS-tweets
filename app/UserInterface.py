@@ -8,12 +8,12 @@ from app.SearcherInterface import SearcherInterface
 class UserInterface:
     def __init__(self):
         super(UserInterface, self).__init__()
-        self.__auth = None
-        self.__search_terms = ''
-        self.__num_tweets = None
-        self.__incl_retweets = 0
-        self.__news_org = None
-        self.__search_term_dict = {1: '#Election2016',
+        self._auth = None
+        self._search_terms = ''
+        self._num_tweets = None
+        self._incl_retweets = 0
+        self._news_org = None
+        self._search_term_dict = {1: '#Election2016',
                                    2: ['Hillary', 'Clinton', '#ImWithHer', '#HillaryClinton', '#Hillary2016'],
                                    3: ['Donald Trump', 'Trump', '#MakeAmericaGreatAgain', '#Trump', '#trumptrain',
                                        '#donaldtrump', '#Trump2016'],
@@ -24,29 +24,29 @@ class UserInterface:
                                    7: ['Democrat', 'Democrats', '#democrat', '#left', '#Democratic', '#liberal'],
                                    8: ['Republican', 'Republicans', '#GOP', '#Republican', '#rightwing',
                                        '#conservative']}
-        self.__news_org_dict = {1: 'nytimes', 2: 'CNN', 3: 'WSJ', 4: 'TIME', 5: 'FoxNews',
+        self._news_org_dict = {1: 'nytimes', 2: 'CNN', 3: 'WSJ', 4: 'TIME', 5: 'FoxNews',
                                 6: 'washingtonpost', 7: 'ABC', 8: 'CBSNews', 9: 'NBCNews', 10: 'Newsweek'}
 
     # Set auth used to access Twitter
     def set_auth(self, auth):
-        self.__auth = auth
+        self._auth = auth
 
     # # Set the search terms for the Twitter search
     # def set_search_terms(self, search_terms):
-    #     self.__search_terms = search_terms
+    #     self._search_terms = search_terms
 
     # Set the number of tweets for the Twitter search
     def set_num_tweets(self, num_tweets):
-        self.__num_tweets = num_tweets
+        self._num_tweets = num_tweets
 
     # Set whether or not the news-related Twitter search (if selected) will include RTs
     def set_incl_retweets(self, yes_or_no):
         if yes_or_no == 'yes':
-            self.__incl_retweets = 1
+            self._incl_retweets = 1
 
     # Set the news organization for the Twitter search
     def set_news_org(self, news_org):
-        self.__news_org = news_org
+        self._news_org = news_org
 
     @staticmethod
     def clear_screen():
@@ -78,9 +78,9 @@ class UserInterface:
         if choice == '1':
             self.ask_for_org()
             self.present_search_term_options()
-            self.ask_for_search_terms(org=self.__news_org)
+            self.ask_for_search_terms(org=self._news_org)
             self.ask_num_tweets_search()
-            self.activate_news_org_search(self.__num_tweets)
+            self.activate_news_org_search(self._num_tweets)
         # Collect live Election 2016 tweets from the Twitter stream
         elif choice == '2':
             print()
@@ -88,7 +88,7 @@ class UserInterface:
             self.present_search_term_options()
             self.ask_for_search_terms(org=None)
             self.ask_num_tweets_live()
-            self.activate_stream_listener(self.__num_tweets)
+            self.activate_stream_listener(self._num_tweets)
         # User input was not 1 or 2; invalid
         else:
             self.invalid_choice()
@@ -124,14 +124,14 @@ class UserInterface:
                 term = input('Invalid choice. '
                              'Please enter a digit corresponding to the search term you want to add to the search: ')
             # User response is accepted; pick search term from the search_term_dict
-            search_term = self.__search_term_dict[int(term)]
-            # Create search string and store in self.__search_terms variable
+            search_term = self._search_term_dict[int(term)]
+            # Create search string and store in self._search_terms variable
             if type(search_term) is list and org:
                 for term in search_term[:-1]:
-                    self.__search_terms = self.__search_terms + term + ' ' + org + ' OR '
-                self.__search_terms = self.__search_terms + search_term[-1] + ' ' + org
+                    self._search_terms = self._search_terms + term + ' ' + org + ' OR '
+                self._search_terms = self._search_terms + search_term[-1] + ' ' + org
             else:
-                self.__search_terms = search_term
+                self._search_terms = search_term
 
     # Method for RECENT tweets only
     # Ask user which news organization they want to include as a search term
@@ -160,7 +160,7 @@ class UserInterface:
                            'Please enter a digit corresponding to the news organization '
                            'you want to include in the search: ')
         # User response is accepted; pick news organization's Twitter username from news_org_dict
-        news_org = self.__news_org_dict[int(org_id)]
+        news_org = self._news_org_dict[int(org_id)]
         # Store selected news organization's Twitter username
         self.set_news_org(news_org)
 
@@ -170,7 +170,7 @@ class UserInterface:
         print()
         tweets_wanted = \
             input("How many election-related tweets do you want to obtain that are from, "
-                  "or mention, @{0}? ".format(self.__news_org))
+                  "or mention, @{0}? ".format(self._news_org))
         # Handle invalid responses
         while not tweets_wanted.isdigit() or '-' in tweets_wanted or int(tweets_wanted) <= 0:
             tweets_wanted = input('Invalid choice. Please enter a digit: ')
@@ -201,14 +201,14 @@ class UserInterface:
     # set up the search
     def activate_news_org_search(self, num_tweets):
         searcher = SearcherInterface()
-        searcher.search_for_search_terms_in_twitter(num_tweets, self.__auth, self.__search_terms, self.__incl_retweets)
+        searcher.search_for_search_terms_in_twitter(num_tweets, self._auth, self._search_terms, self._incl_retweets)
 
     # Method for LIVE tweets only
     # Send auth, search terms, and the number of tweets the user wants over to a ListenerInterface which will
     # set up the Twitter Stream Listener
     def activate_stream_listener(self, num_tweets):
         listener = ListenerInterface()
-        listener.get_live_tweets_from_twitter_stream(self.__auth, self.__search_terms, num_tweets)
+        listener.get_live_tweets_from_twitter_stream(self._auth, self._search_terms, num_tweets)
 
     # After the search is done and the tweets are presented to the user,
     # ask user if s/he wants to view one of the listed tweets on the web via their browser
@@ -229,7 +229,7 @@ class UserInterface:
             if response == 'Y' or response == 'y':
                 line_of_tweet = input("What is the line number of the tweet with the desired URL? ")
                 # Handle invalid responses
-                while int(line_of_tweet) > int(self.__num_tweets) or int(line_of_tweet) <= 0 or line_of_tweet.isalpha():
+                while int(line_of_tweet) > int(self._num_tweets) or int(line_of_tweet) <= 0 or line_of_tweet.isalpha():
                     line_of_tweet = input("Invalid response.  Please enter a number corresponding to the tweet "
                                           "you'd like to view online: ")
                 # Open the JSON file for reading and grab everything in there, then close the file

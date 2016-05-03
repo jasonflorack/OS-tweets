@@ -8,7 +8,7 @@ class ListenerInterface:
     @staticmethod
     def get_live_tweets_from_twitter_stream(auth, terms, num_tweets):
         listener = TwitterListener()
-        listener.set_max_tweets(num_tweets)
+        listener._max_tweets = num_tweets
         twitter_stream = Stream(auth, listener)
         twitter_stream.filter(track=terms, languages=['en'])
         listener.store_live_tweets()

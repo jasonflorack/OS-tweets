@@ -11,7 +11,7 @@ class ElectionApp:
     def run_app():
         u = UserInterface()
         auth = return_auth()
-        u.set_auth(auth)
+        u.auth = auth
         u.clear_screen()
         u.greeting()
         u.pick_recent_or_live_tweets()

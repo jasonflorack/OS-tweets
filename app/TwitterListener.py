@@ -10,11 +10,12 @@ class TwitterListener(StreamListener):
         self._tweets_collected = 0
         self._all_collected_tweets_json = {}
 
-    # def get_max_tweets(self):
-    #     return self._max_tweets
+    @property
+    def max_tweets(self):
+        return self._max_tweets
 
-    # Set the maximum number of tweets to be collected from Twitter
-    def set_max_tweets(self, maximum):
+    @max_tweets.setter
+    def max_tweets(self, maximum):
         self._max_tweets = int(maximum)
 
     # When a tweet comes along the Twitter stream that matches our search criteria, grab it, print it to the user,

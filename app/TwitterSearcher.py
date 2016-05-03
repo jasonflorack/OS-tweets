@@ -11,8 +11,12 @@ class TwitterSearcher:
         self._tweet_cache = None
         self._all_found_tweets_json = {}
 
-    # Set the maximum number of tweets for the search
-    def set_max_tweets(self, maximum):
+    @property
+    def max_tweets(self):
+        return self._max_tweets
+
+    @max_tweets.setter
+    def max_tweets(self, maximum):
         self._max_tweets = int(maximum)
 
     # Create API instance

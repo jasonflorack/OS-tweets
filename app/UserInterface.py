@@ -27,25 +27,45 @@ class UserInterface:
         self._news_org_dict = {1: 'nytimes', 2: 'CNN', 3: 'WSJ', 4: 'TIME', 5: 'FoxNews',
                                 6: 'washingtonpost', 7: 'ABC', 8: 'CBSNews', 9: 'NBCNews', 10: 'Newsweek'}
 
-    # Set auth used to access Twitter
-    def set_auth(self, auth):
+    @property
+    def auth(self):
+        return self._auth
+
+    @auth.setter
+    def auth(self, auth):
         self._auth = auth
 
-    # # Set the search terms for the Twitter search
-    # def set_search_terms(self, search_terms):
-    #     self._search_terms = search_terms
+    @property
+    def search_terms(self):
+        return self._search_terms
 
-    # Set the number of tweets for the Twitter search
-    def set_num_tweets(self, num_tweets):
+    @search_terms.setter
+    def search_terms(self, search_terms):
+        self._search_terms = search_terms
+
+    @property
+    def num_tweets(self):
+        return self._num_tweets
+
+    @num_tweets.setter
+    def num_tweets(self, num_tweets):
         self._num_tweets = num_tweets
 
-    # Set whether or not the news-related Twitter search (if selected) will include RTs
-    def set_incl_retweets(self, yes_or_no):
+    @property
+    def incl_retweets(self):
+        return self._incl_retweets
+
+    @incl_retweets.setter
+    def incl_retweets(self, yes_or_no):
         if yes_or_no == 'yes':
             self._incl_retweets = 1
 
-    # Set the news organization for the Twitter search
-    def set_news_org(self, news_org):
+    @property
+    def news_org(self):
+        return self._news_org
+
+    @news_org.setter
+    def news_org(self, news_org):
         self._news_org = news_org
 
     @staticmethod
@@ -162,7 +182,7 @@ class UserInterface:
         # User response is accepted; pick news organization's Twitter username from news_org_dict
         news_org = self._news_org_dict[int(org_id)]
         # Store selected news organization's Twitter username
-        self.set_news_org(news_org)
+        self._news_org = news_org
 
     # Method for RECENT tweets only
     # Ask user how many tweets to search for
@@ -175,7 +195,7 @@ class UserInterface:
         while not tweets_wanted.isdigit() or '-' in tweets_wanted or int(tweets_wanted) <= 0:
             tweets_wanted = input('Invalid choice. Please enter a digit: ')
         # Store user's desired number of tweets
-        self.set_num_tweets(tweets_wanted)
+        self._num_tweets = tweets_wanted
         # Ask user if they want to include RTs or not
         incl_retweets = input("Include retweets (enter Y or N)? ")
         # Handle invalid responses
@@ -183,7 +203,7 @@ class UserInterface:
             incl_retweets = input('Invalid response. Please enter Y for yes or N for no: ')
         # If user elects to include RTs in the search, set the appropriate variable which will flag this in the search
         if incl_retweets == 'y' or incl_retweets == 'Y':
-            self.set_incl_retweets('yes')
+            self._incl_retweets = 'yes'
 
     # Method for LIVE tweets only
     # Ask user how many tweets to collect from the live Twitter stream
@@ -194,7 +214,7 @@ class UserInterface:
         print()
         while not tweets_wanted.isdigit() or '-' in tweets_wanted or int(tweets_wanted) <= 0:
             tweets_wanted = input('Invalid response. Please enter a digit.')
-        self.set_num_tweets(tweets_wanted)
+        self._num_tweets = tweets_wanted
 
     # Method for RECENT tweets only
     # Send num_tweets, auth, search terms, and the include retweets setting to a SearcherInterface which will

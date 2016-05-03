@@ -73,7 +73,6 @@ class UserInterface:
 
     @staticmethod
     def greeting():
-        # TODO: Make sure this text (and all text) still accurately describes the app!!!
         print("******************************************************************************************************")
         print('                                  Election 2016 Twitter Tracker')
         print("******************************************************************************************************")
@@ -93,14 +92,13 @@ class UserInterface:
         self.handle_recent_or_live_choice(choice)
 
     def handle_recent_or_live_choice(self, choice):
-        # Search for recent news-oriented Election 2016 tweets
+        """Take in the user's choice from the top menu and handle it accordingly."""
         if choice == '1':
             self.ask_for_org()
             self.present_search_term_options()
             self.ask_for_search_terms(org=self._news_org)
             self.ask_num_tweets_search()
             self.activate_news_org_search(self._num_tweets)
-        # Collect live Election 2016 tweets from the Twitter stream
         elif choice == '2':
             print()
             print("You chose to collect live tweets concerning Election 2016.")
@@ -108,19 +106,20 @@ class UserInterface:
             self.ask_for_search_terms(org=None)
             self.ask_num_tweets_live()
             self.activate_stream_listener(self._num_tweets)
-        # User input was not 1 or 2; invalid
         else:
             self.invalid_choice()
 
-    # Handle an invalid choice off of the main menu
     def invalid_choice(self):
+        """Handle an invalid choice off of the main menu."""
         new_choice = input('Invalid choice.  Please select 1 or 2: ')
         self.handle_recent_or_live_choice(new_choice)
 
-    # Method for RECENT or LIVE tweets
-    # Present user with terms that can be included in the Twitter search
     @staticmethod
     def present_search_term_options():
+        """Present user with terms that can be included in the Twitter search
+
+        Method for RECENT or LIVE tweets
+        """
         print()
         print("Here are eight groups of terms related to the 2016 US Presidential Election:")
         print("1) #Election2016")
@@ -133,28 +132,32 @@ class UserInterface:
         print("7) Democrat, Democrats, #democrat, #left, #Democratic, #liberal")
         print("8) Republican, Republicans, #GOP, #Republican, #rightwing, #conservative")
 
-    # Method for RECENT or LIVE tweets
-    # Ask user which search term they want to use, and set their choice
     def ask_for_search_terms(self, org):
-            print()
-            term = input("Which term do you want to add to the search?  Pick one: ")
-            # Handle invalid responses
-            while not term.isdigit() or '-' in term or int(term) > 8 or int(term) <= 0:
-                term = input('Invalid choice. '
-                             'Please enter a digit corresponding to the search term you want to add to the search: ')
-            # User response is accepted; pick search term from the search_term_dict
-            search_term = self._search_term_dict[int(term)]
-            # Create search string and store in self._search_terms variable
-            if type(search_term) is list and org:
-                for term in search_term[:-1]:
-                    self._search_terms = self._search_terms + term + ' ' + org + ' OR '
-                self._search_terms = self._search_terms + search_term[-1] + ' ' + org
-            else:
-                self._search_terms = search_term
+        """Ask user which search term they want to use, and set their choice
 
-    # Method for RECENT tweets only
-    # Ask user which news organization they want to include as a search term
+        Method for RECENT or LIVE tweets
+        """
+        print()
+        term = input("Which term do you want to add to the search?  Pick one: ")
+        # Handle invalid responses
+        while not term.isdigit() or '-' in term or int(term) > 8 or int(term) <= 0:
+            term = input('Invalid choice. '
+                         'Please enter a digit corresponding to the search term you want to add to the search: ')
+        # User response is accepted; pick search term from the search_term_dict
+        search_term = self._search_term_dict[int(term)]
+        # Create search string and store in self._search_terms variable
+        if type(search_term) is list and org:
+            for term in search_term[:-1]:
+                self._search_terms = self._search_terms + term + ' ' + org + ' OR '
+            self._search_terms = self._search_terms + search_term[-1] + ' ' + org
+        else:
+            self._search_terms = search_term
+
     def ask_for_org(self):
+        """Ask user which news organization they want to include as a search term
+
+        Method for RECENT tweets only
+        """
         print()
         print('You chose to search for recent news-oriented Election 2016 tweets. In order to increase the chance')
         print('that quality content will be found, the search will look specifically for tweets that mention a ')
@@ -183,9 +186,11 @@ class UserInterface:
         # Store selected news organization's Twitter username
         self._news_org = news_org
 
-    # Method for RECENT tweets only
-    # Ask user how many tweets to search for
     def ask_num_tweets_search(self):
+        """Ask user how many tweets to search for
+
+        Method for RECENT tweets only
+        """
         print()
         tweets_wanted = \
             input("How many election-related tweets do you want to obtain that are from, "
@@ -204,9 +209,11 @@ class UserInterface:
         if incl_retweets == 'y' or incl_retweets == 'Y':
             self._incl_retweets = 1
 
-    # Method for LIVE tweets only
-    # Ask user how many tweets to collect from the live Twitter stream
     def ask_num_tweets_live(self):
+        """Ask user how many tweets to collect from the live Twitter stream
+
+        Method for LIVE tweets only
+        """
         print()
         tweets_wanted = \
             input("How many tweets do you want to collect? ")
@@ -215,23 +222,28 @@ class UserInterface:
             tweets_wanted = input('Invalid response. Please enter a digit: ')
         self._num_tweets = tweets_wanted
 
-    # Method for RECENT tweets only
-    # Send num_tweets, auth, search terms, and the include retweets setting to a SearcherInterface which will
-    # set up the search
     def activate_news_org_search(self, num_tweets):
+        """Send num_tweets, auth, search terms, and the include retweets setting to a SearcherInterface which will
+        set up the search
+
+        Method for RECENT tweets only
+        """
         searcher = SearcherInterface()
         searcher.search_for_search_terms_in_twitter(num_tweets, self._auth, self._search_terms, self._incl_retweets)
 
-    # Method for LIVE tweets only
-    # Send auth, search terms, and the number of tweets the user wants over to a ListenerInterface which will
-    # set up the Twitter Stream Listener
     def activate_stream_listener(self, num_tweets):
+        """Send auth, search terms, and the number of tweets the user wants over to a ListenerInterface which will
+        set up the Twitter Stream listener
+
+        Method for LIVE tweets only
+        """
         listener = ListenerInterface()
         listener.get_live_tweets_from_twitter_stream(self._auth, self._search_terms, num_tweets)
 
-    # After the search is done and the tweets are presented to the user,
-    # ask user if s/he wants to view one of the listed tweets on the web via their browser
     def view_tweet_in_browser_or_end_program(self):
+        """After the search is done and the tweets are presented to the user,
+        ask user if s/he wants to view one of the listed tweets on the web via their browser
+        """
         loop = 0
         while loop >= 0:
             loop += 1

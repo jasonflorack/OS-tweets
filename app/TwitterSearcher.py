@@ -19,19 +19,19 @@ class TwitterSearcher:
     def max_tweets(self, maximum):
         self._max_tweets = int(maximum)
 
-    # Create API instance
     def create_api_instance(self, auth):
+        """Create API instance"""
         self._api = tweepy.API(auth)
 
-    # Set search query with terms and the RT flag if desired, then start the search
     def search_news_org_for_terms(self, terms, rt):
+        """Set search query with terms and the RT flag if desired, then start the search"""
         query = terms
         if int(rt) == 0:
             query += " -filter:retweets"
         self.search_twitter_and_collect_tweets(query)
 
-    # Search Twitter and present tweets that match the search criteria
     def search_twitter_and_collect_tweets(self, query):
+        """Search Twitter and present tweets that match the search criteria"""
         # Instantiate Tweepy Cursor object to conduct search
         self._tweet_cache = tweepy.Cursor(self._api.search, q=query, lang='en')
         if self._tweet_cache:
@@ -54,9 +54,10 @@ class TwitterSearcher:
                 self._all_found_tweets_json['Tweet' + str(self._tweets_collected+1)] = tweet.id_str
                 self._tweets_collected += 1
 
-    # Store the id strings (id_str) of the recent tweets found in the search, in case the user wants to
-    # view the tweet via the web
     def store_recent_tweets(self):
+        """Store the id strings (id_str) of the recent tweets found in the search, in case the user wants to
+        view the tweet via the web
+        """
         if len(self._all_found_tweets_json) != 0:
             try:
                 with open('app/data/election.json', 'w') as f:

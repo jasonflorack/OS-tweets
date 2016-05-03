@@ -18,9 +18,10 @@ class TwitterListener(StreamListener):
     def max_tweets(self, maximum):
         self._max_tweets = int(maximum)
 
-    # When a tweet comes along the Twitter stream that matches our search criteria, grab it, print it to the user,
-    # and store it for future reference, in case the user wants to view the tweet on the web
     def on_data(self, data):
+        """When a tweet comes along the Twitter stream that matches our search criteria, grab it, print it to the user,
+        and store it for future reference, in case the user wants to view the tweet on the web
+        """
         # Make sure we aren't collecting more tweets than what the user requested
         if self._tweets_collected < int(self._max_tweets):
             tweet = json.loads(data)
@@ -39,9 +40,10 @@ class TwitterListener(StreamListener):
         else:
             return False
 
-    # After the tweets collected reaches the amount the user requested, store the entire dict in an external
-    # JSON file, found in root/data/.
     def store_live_tweets(self):
+        """After the tweets collected reaches the amount the user requested, store the entire dict in an external
+        JSON file, found in root/data/
+        """
         try:
             # Open JSON file, delete file contents, write stored Twitter objects to the file, close file
             with open('app/data/election.json', 'w') as f:

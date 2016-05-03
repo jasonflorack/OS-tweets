@@ -4,9 +4,9 @@ from app.TwitterListener import TwitterListener
 
 class ListenerInterface:
 
-    # Start collecting tweets from the live Twitter stream that include search terms provided as parameters
     @staticmethod
     def get_live_tweets_from_twitter_stream(auth, terms, num_tweets):
+        """Start collecting tweets from the live Twitter stream that include search terms provided as parameters"""
         listener = TwitterListener()
         listener._max_tweets = num_tweets
         twitter_stream = Stream(auth, listener)

@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     # Application name:
-    name="Election 2016 Tweet Collector",
+    name="Election 2016 Twitter Tracker",
 
     # Version number (initial):
     version="1.0.0",
@@ -18,7 +18,7 @@ setup(
     include_package_data=True,
 
     # Details
-    url="https://github.com/jasonflorack/Election2016.git/",
+    url="https://github.com/jasonflorack/Election2016TwitterTracker.git",
     description="An app that searches Twitter for past and live tweets related to the 2016 US Presidential Election. "
                 "Uses Tweepy.",
 

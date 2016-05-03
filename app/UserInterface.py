@@ -56,7 +56,7 @@ class UserInterface:
     def greeting():
         # TODO: Make sure this text (and all text) still accurately describes the app!!!
         print("******************************************************************************************************")
-        print('                                   Election 2016 Tweet Collector')
+        print('                                  Election 2016 Twitter Tracker')
         print("******************************************************************************************************")
         print('This app uses the Twitter API (often via Tweepy) to search for tweets related to the 2016 US')
         print('Presidential Election.  The search can be done either from the recent past, or from the live Twitter')

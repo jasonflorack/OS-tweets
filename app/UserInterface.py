@@ -56,9 +56,8 @@ class UserInterface:
         return self._incl_retweets
 
     @incl_retweets.setter
-    def incl_retweets(self, yes_or_no):
-        if yes_or_no == 'yes':
-            self._incl_retweets = 1
+    def incl_retweets(self, incl_retweets):
+        self._incl_retweets = incl_retweets
 
     @property
     def news_org(self):
@@ -203,7 +202,7 @@ class UserInterface:
             incl_retweets = input('Invalid response. Please enter Y for yes or N for no: ')
         # If user elects to include RTs in the search, set the appropriate variable which will flag this in the search
         if incl_retweets == 'y' or incl_retweets == 'Y':
-            self._incl_retweets = 'yes'
+            self._incl_retweets = 1
 
     # Method for LIVE tweets only
     # Ask user how many tweets to collect from the live Twitter stream

@@ -42,7 +42,7 @@ class TwitterSearcher:
             else:
                 print("Here are tweets that met the search criteria:")
             print()
-            for tweet in self._tweet_cache.items(self._max_tweets):
+            for tweet in self._tweet_cache.items(int(self._max_tweets)):
                 print("{0})".format(str(self._tweets_collected + 1)))
                 print("{0}".format(tweet.text))
                 print("User:      {0} (@{1})".format(tweet.user.name, tweet.user.screen_name))

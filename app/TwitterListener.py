@@ -6,7 +6,7 @@ class TwitterListener(StreamListener):
 
     def __init__(self):
         super(TwitterListener, self).__init__()
-        self._max_tweets = 5
+        self._max_tweets = 0
         self._tweets_collected = 0
         self._all_collected_tweets_json = {}
 
@@ -22,7 +22,7 @@ class TwitterListener(StreamListener):
     # and store it for future reference, in case the user wants to view the tweet on the web
     def on_data(self, data):
         # Make sure we aren't collecting more tweets than what the user requested
-        if self._tweets_collected < self._max_tweets:
+        if self._tweets_collected < int(self._max_tweets):
             tweet = json.loads(data)
             # Print the tweet text to the screen
             print("{0})".format(str(self._tweets_collected + 1)))

@@ -212,7 +212,7 @@ class UserInterface:
             input("How many tweets do you want to collect? ")
         print()
         while not tweets_wanted.isdigit() or '-' in tweets_wanted or int(tweets_wanted) <= 0:
-            tweets_wanted = input('Invalid response. Please enter a digit.')
+            tweets_wanted = input('Invalid response. Please enter a digit: ')
         self._num_tweets = tweets_wanted
 
     # Method for RECENT tweets only

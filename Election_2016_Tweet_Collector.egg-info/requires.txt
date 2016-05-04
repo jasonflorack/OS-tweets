@@ -1,5 +1,0 @@
-oauthlib >= 1.0
-requests >= 2.9
-requests-oauthlib >= 0.6
-six >= 1.10
-tweepy >= 3.5

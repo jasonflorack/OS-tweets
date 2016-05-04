@@ -192,12 +192,11 @@ class UserInterface:
         Method for RECENT tweets only
         """
         print()
-        tweets_wanted = \
-            input("How many election-related tweets do you want to obtain that are from, "
-                  "or mention, @{0}? ".format(self._news_org))
+        tweets_wanted = input("How many election-related tweets do you want to obtain that are from, "
+                              "or mention, @{0} (MAX=100)? ".format(self._news_org))
         # Handle invalid responses
-        while not tweets_wanted.isdigit() or '-' in tweets_wanted or int(tweets_wanted) <= 0:
-            tweets_wanted = input('Invalid choice. Please enter a digit: ')
+        while not tweets_wanted.isdigit() or not 0 < int(tweets_wanted) < 101:
+            tweets_wanted = input('Invalid choice. Please enter a digit between 1 and 100: ')
         # Store user's desired number of tweets
         self._num_tweets = tweets_wanted
         # Ask user if they want to include RTs or not
@@ -215,11 +214,11 @@ class UserInterface:
         Method for LIVE tweets only
         """
         print()
-        tweets_wanted = \
-            input("How many tweets do you want to collect? ")
-        print()
-        while not tweets_wanted.isdigit() or '-' in tweets_wanted or int(tweets_wanted) <= 0:
-            tweets_wanted = input('Invalid response. Please enter a digit: ')
+        tweets_wanted = input("How many tweets do you want to collect (MAX=100)? ")
+        # Handle invalid responses
+        while not tweets_wanted.isdigit() or not 0 < int(tweets_wanted) < 101:
+            tweets_wanted = input('Invalid response. Please enter a digit between 1 and 100: ')
+        # Store user's desired number of tweets
         self._num_tweets = tweets_wanted
 
     def activate_news_org_search(self, num_tweets):
@@ -260,7 +259,9 @@ class UserInterface:
             if response == 'Y' or response == 'y':
                 line_of_tweet = input("What is the line number of the tweet with the desired URL? ")
                 # Handle invalid responses
-                while int(line_of_tweet) > int(self._num_tweets) or int(line_of_tweet) <= 0 or line_of_tweet.isalpha():
+                while not line_of_tweet.isdigit() or \
+                        int(line_of_tweet) > int(self._num_tweets) or \
+                        int(line_of_tweet) <= 0:
                     line_of_tweet = input("Invalid response.  Please enter a number corresponding to the tweet "
                                           "you'd like to view online: ")
                 # Open the JSON file for reading and grab everything in there, then close the file

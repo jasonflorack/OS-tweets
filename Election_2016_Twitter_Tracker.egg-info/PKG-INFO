@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: Election-2016-Twitter-Tracker
+Version: 1.0.0
+Summary: An app that searches Twitter for past and live tweets related to the 2016 US Presidential Election. Uses Tweepy.
+Home-page: https://github.com/jasonflorack/Election2016TwitterTracker.git
+Author: Jason Florack
+Author-email: jasonflorack@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN

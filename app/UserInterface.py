@@ -271,7 +271,8 @@ class UserInterface(object):
                 # Store the id string (id_str) of the desired tweet in the tweet_id variable
                 tweet_id = data['Tweet' + line_of_tweet]['id_str']
                 # Open a web browser and go to the URL for the tweet the user wanted to see displayed on the web
-                webbrowser.open('https://twitter.com/statuses/{0}'.format(tweet_id), new=1, autoraise=True)
+                browser = webbrowser.get("open -a /Applications/Google\ Chrome.app %s")
+                browser.open('https://twitter.com/statuses/{0}'.format(tweet_id), new=1, autoraise=True)
             # Handle a NO response
             else:
                 # Set 'loop' to be < 0 in order to stop the while loop handling the tweet viewing

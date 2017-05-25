@@ -2,7 +2,7 @@ from tweepy import Stream
 from app.TwitterListener import TwitterListener
 
 
-class ListenerInterface:
+class ListenerInterface(object):
 
     @staticmethod
     def get_live_tweets_from_twitter_stream(auth, terms, num_tweets):
@@ -10,6 +10,6 @@ class ListenerInterface:
         listener = TwitterListener()
         listener._max_tweets = num_tweets
         twitter_stream = Stream(auth, listener)
-        twitter_stream.filter(track=terms, languages=['en'])
+        twitter_stream.filter(track=[terms], languages=['en'])
         listener.store_live_tweets()
 

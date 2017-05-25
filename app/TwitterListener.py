@@ -27,8 +27,8 @@ class TwitterListener(StreamListener):
             tweet = json.loads(data)
             # Print the tweet text to the screen
             print("{0})".format(str(self._tweets_collected + 1)))
-            print("{0}".format(tweet['text']))
-            print("User:      {0} (@{1})".format(tweet['user']['name'],tweet['user']['screen_name']))
+            print("{0}".format(tweet['text'].encode('UTF-8')))
+            print("User:      {0} (@{1})".format(tweet['user']['name'].encode('UTF-8'), tweet['user']['screen_name'].encode('UTF-8')))
             print("Retweeted: {0} times".format(tweet['retweet_count']))
             print("Favorited: {0} times".format(tweet['favorite_count']))
             print("Created:   {0}".format(tweet['created_at']))

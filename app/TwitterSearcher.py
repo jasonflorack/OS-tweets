@@ -1,7 +1,7 @@
 import tweepy
 
 
-class TwitterSearcher:
+class TwitterSearcher(object):
 
     def __init__(self):
         super(TwitterSearcher, self).__init__()
@@ -36,16 +36,16 @@ class TwitterSearcher:
         self._tweet_cache = tweepy.Cursor(self._api.search, q=query, lang='en')
         if self._tweet_cache:
             # Present search result tweets to user
-            print()
+            print('')
             if self._max_tweets == 1:
                 print("Here is a tweet that met the search criteria:")
             else:
                 print("Here are tweets that met the search criteria:")
-            print()
+            print('')
             for tweet in self._tweet_cache.items(int(self._max_tweets)):
                 print("{0})".format(str(self._tweets_collected + 1)))
-                print("{0}".format(tweet.text))
-                print("User:      {0} (@{1})".format(tweet.user.name, tweet.user.screen_name))
+                print("{0}".format(tweet.text.encode('UTF-8')))
+                print("User:      {0} (@{1})".format(tweet.user.name.encode('UTF-8'), tweet.user.screen_name.encode('UTF-8')))
                 print("Retweeted: {0} times".format(tweet.retweet_count))
                 print("Favorited: {0} times".format(tweet.favorite_count))
                 print("Created:   {0}".format(tweet.created_at))

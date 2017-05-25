@@ -28,6 +28,7 @@ class TwitterSearcher(object):
         query = terms
         if int(rt) == 0:
             query += " -filter:retweets"
+        query = [query]
         self.search_twitter_and_collect_tweets(query)
 
     def search_twitter_and_collect_tweets(self, query):

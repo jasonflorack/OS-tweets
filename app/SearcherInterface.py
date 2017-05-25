@@ -11,7 +11,7 @@ class SearcherInterface(object):
         searcher = TwitterSearcher()
         searcher._max_tweets = num_tweets
         searcher.create_api_instance(auth)
-        searcher.search_news_org_for_terms([terms], rt)
+        searcher.search_news_org_for_terms(terms, rt)
         searcher.store_recent_tweets()
 
 

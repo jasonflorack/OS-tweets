@@ -5,7 +5,7 @@ from app.ListenerInterface import ListenerInterface
 from app.SearcherInterface import SearcherInterface
 
 
-class UserInterface:
+class UserInterface(object):
     def __init__(self):
         super(UserInterface, self).__init__()
         self._auth = None
@@ -82,13 +82,13 @@ class UserInterface:
         print('along with an option to view one or more of the tweets in your browser.')
 
     def pick_recent_or_live_tweets(self):
-        print()
+        print('')
         print('OPTIONS:')
         print('--------')
         print('1) Search for recent news-oriented Election 2016 tweets')
         print('2) Collect live Election 2016 tweets from the Twitter stream')
-        print()
-        choice = input('PICK 1 or 2: ')
+        print('')
+        choice = raw_input('PICK 1 or 2: ')
         self.handle_recent_or_live_choice(choice)
 
     def handle_recent_or_live_choice(self, choice):
@@ -100,7 +100,7 @@ class UserInterface:
             self.ask_num_tweets_search()
             self.activate_news_org_search(self._num_tweets)
         elif choice == '2':
-            print()
+            print('')
             print("You chose to collect live tweets concerning Election 2016.")
             self.present_search_term_options()
             self.ask_for_search_terms(org=None)
@@ -111,7 +111,7 @@ class UserInterface:
 
     def invalid_choice(self):
         """Handle an invalid choice off of the main menu."""
-        new_choice = input('Invalid choice.  Please select 1 or 2: ')
+        new_choice = raw_input('Invalid choice.  Please select 1 or 2: ')
         self.handle_recent_or_live_choice(new_choice)
 
     @staticmethod
@@ -120,7 +120,7 @@ class UserInterface:
 
         Method for RECENT or LIVE tweets
         """
-        print()
+        print('')
         print("Here are eight groups of terms related to the 2016 US Presidential Election:")
         print("1) #Election2016")
         print("2) Hillary, Clinton, #ImWithHer, #HillaryClinton, #Hillary2016")
@@ -137,7 +137,7 @@ class UserInterface:
 
         Method for RECENT or LIVE tweets
         """
-        print()
+        print('')
         term = input("Which term do you want to add to the search?  Pick one: ")
         # Handle invalid responses
         while not term.isdigit() or '-' in term or int(term) > 8 or int(term) <= 0:
@@ -158,11 +158,11 @@ class UserInterface:
 
         Method for RECENT tweets only
         """
-        print()
+        print('')
         print('You chose to search for recent news-oriented Election 2016 tweets. In order to increase the chance')
         print('that quality content will be found, the search will look specifically for tweets that mention a ')
         print('popular news organization, or are from a news organization.')
-        print()
+        print('')
         print("Here are ten top news organizations you can include in the search:")
         print("1) The New York Times")
         print("2) CNN")
@@ -174,7 +174,7 @@ class UserInterface:
         print("8) CBS News")
         print("9) NBC News")
         print("10) Newsweek")
-        print()
+        print('')
         org_id = input("Which news organization do you want (enter number)? ")
         # Handle invalid responses
         while not org_id.isdigit() or '-' in org_id or int(org_id) > 10 or int(org_id) <= 0:
@@ -191,7 +191,7 @@ class UserInterface:
 
         Method for RECENT tweets only
         """
-        print()
+        print('')
         tweets_wanted = input("How many election-related tweets do you want to obtain that are from, "
                               "or mention, @{0} (MAX=100)? ".format(self._news_org))
         # Handle invalid responses
@@ -213,7 +213,7 @@ class UserInterface:
 
         Method for LIVE tweets only
         """
-        print()
+        print('')
         tweets_wanted = input("How many tweets do you want to collect (MAX=100)? ")
         # Handle invalid responses
         while not tweets_wanted.isdigit() or not 0 < int(tweets_wanted) < 101:
@@ -246,7 +246,7 @@ class UserInterface:
         loop = 0
         while loop >= 0:
             loop += 1
-            print()
+            print('')
             # Use slightly different wording in the question after the first time it's asked
             if loop == 1:
                 response = input("Do you want to view a tweet listed above via your web browser (enter Y or N)? ")
@@ -276,5 +276,5 @@ class UserInterface:
             else:
                 # Set 'loop' to be < 0 in order to stop the while loop handling the tweet viewing
                 loop = -1
-                print()
+                print('')
                 print('OK. Thanks for using this app. Come back soon and do another search!  Goodbye.')

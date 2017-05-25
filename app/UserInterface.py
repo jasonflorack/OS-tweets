@@ -138,11 +138,11 @@ class UserInterface(object):
         Method for RECENT or LIVE tweets
         """
         print('')
-        term = input("Which term do you want to add to the search?  Pick one: ")
+        term = raw_input('Which term do you want to add to the search?  Pick one: ')
         # Handle invalid responses
         while not term.isdigit() or '-' in term or int(term) > 8 or int(term) <= 0:
-            term = input('Invalid choice. '
-                         'Please enter a digit corresponding to the search term you want to add to the search: ')
+            term = raw_input('Invalid choice. '
+                             'Please enter a digit corresponding to the search term you want to add to the search: ')
         # User response is accepted; pick search term from the search_term_dict
         search_term = self._search_term_dict[int(term)]
         # Create search string and store in self._search_terms variable
@@ -175,12 +175,12 @@ class UserInterface(object):
         print("9) NBC News")
         print("10) Newsweek")
         print('')
-        org_id = input("Which news organization do you want (enter number)? ")
+        org_id = raw_input('Which news organization do you want (enter number)? ')
         # Handle invalid responses
         while not org_id.isdigit() or '-' in org_id or int(org_id) > 10 or int(org_id) <= 0:
-            org_id = input('Invalid choice. '
-                           'Please enter a digit corresponding to the news organization '
-                           'you want to include in the search: ')
+            org_id = raw_input('Invalid choice.'
+                               'Please enter a digit corresponding to the news organization '
+                               'you want to include in the search: ')
         # User response is accepted; pick news organization's Twitter username from news_org_dict
         news_org = self._news_org_dict[int(org_id)]
         # Store selected news organization's Twitter username
@@ -192,18 +192,18 @@ class UserInterface(object):
         Method for RECENT tweets only
         """
         print('')
-        tweets_wanted = input("How many election-related tweets do you want to obtain that are from, "
-                              "or mention, @{0} (MAX=100)? ".format(self._news_org))
+        tweets_wanted = raw_input('How many election-related tweets do you want to obtain that are from, '
+                                  'or mention, @{0} (MAX=100)? '.format(self._news_org))
         # Handle invalid responses
         while not tweets_wanted.isdigit() or not 0 < int(tweets_wanted) < 101:
-            tweets_wanted = input('Invalid choice. Please enter a digit between 1 and 100: ')
+            tweets_wanted = raw_input('Invalid choice. Please enter a digit between 1 and 100: ')
         # Store user's desired number of tweets
         self._num_tweets = tweets_wanted
         # Ask user if they want to include RTs or not
-        incl_retweets = input("Include retweets (enter Y or N)? ")
+        incl_retweets = raw_input('Include retweets (enter Y or N)? ')
         # Handle invalid responses
         while incl_retweets != 'y' and incl_retweets != 'n' and incl_retweets != 'Y' and incl_retweets != 'N':
-            incl_retweets = input('Invalid response. Please enter Y for yes or N for no: ')
+            incl_retweets = raw_input('Invalid response. Please enter Y for yes or N for no: ')
         # If user elects to include RTs in the search, set the appropriate variable which will flag this in the search
         if incl_retweets == 'y' or incl_retweets == 'Y':
             self._incl_retweets = 1
@@ -214,10 +214,10 @@ class UserInterface(object):
         Method for LIVE tweets only
         """
         print('')
-        tweets_wanted = input("How many tweets do you want to collect (MAX=100)? ")
+        tweets_wanted = raw_input('How many tweets do you want to collect (MAX=100)? ')
         # Handle invalid responses
         while not tweets_wanted.isdigit() or not 0 < int(tweets_wanted) < 101:
-            tweets_wanted = input('Invalid response. Please enter a digit between 1 and 100: ')
+            tweets_wanted = raw_input('Invalid response. Please enter a digit between 1 and 100: ')
         # Store user's desired number of tweets
         self._num_tweets = tweets_wanted
 
@@ -249,21 +249,21 @@ class UserInterface(object):
             print('')
             # Use slightly different wording in the question after the first time it's asked
             if loop == 1:
-                response = input("Do you want to view a tweet listed above via your web browser (enter Y or N)? ")
+                response = raw_input('Do you want to view a tweet listed above via your web browser (enter Y or N)? ')
             else:
-                response = input("Do you want to view another tweet from the search results (enter Y or N)? ")
+                response = raw_input('Do you want to view another tweet from the search results (enter Y or N)? ')
             # Handle invalid responses
             while response != 'y' and response != 'n' and response != 'Y' and response != 'N':
-                response = input('Invalid response.  Please enter Y for yes or N for no: ')
+                response = raw_input('Invalid response.  Please enter Y for yes or N for no: ')
             # Handle a YES response
             if response == 'Y' or response == 'y':
-                line_of_tweet = input("What is the line number of the tweet with the desired URL? ")
+                line_of_tweet = raw_input('What is the line number of the tweet with the desired URL? ')
                 # Handle invalid responses
                 while not line_of_tweet.isdigit() or \
                         int(line_of_tweet) > int(self._num_tweets) or \
                         int(line_of_tweet) <= 0:
-                    line_of_tweet = input("Invalid response.  Please enter a number corresponding to the tweet "
-                                          "you'd like to view online: ")
+                    line_of_tweet = raw_input("Invalid response.  Please enter a number corresponding to the tweet "
+                                              "you'd like to view online: ")
                 # Open the JSON file for reading and grab everything in there, then close the file
                 with open('app/data/election.json', 'r') as data_file:
                     data = json.load(data_file)

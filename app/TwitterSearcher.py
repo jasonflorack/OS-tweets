@@ -61,7 +61,7 @@ class TwitterSearcher(object):
         """
         if len(self._all_found_tweets_json) != 0:
             try:
-                with open('app/data/election.json', 'w') as f:
+                with open('app/data/tweets.json', 'w') as f:
                     f.write('{')
                     for x in range(1, len(self._all_found_tweets_json)):
                         this_tweet = 'Tweet{0}'.format(x)

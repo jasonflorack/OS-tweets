@@ -13,19 +13,14 @@ class UserInterface(object):
         self._num_tweets = None
         self._incl_retweets = 0
         self._news_org = None
-        self._search_term_dict = {1: '#Election2016',
-                                   2: ['Hillary', 'Clinton', '#ImWithHer', '#HillaryClinton', '#Hillary2016'],
-                                   3: ['Donald Trump', 'Trump', '#MakeAmericaGreatAgain', '#Trump', '#trumptrain',
-                                       '#donaldtrump', '#Trump2016'],
-                                   4: ['Bernie', 'Sanders', '#Bernie2016', '#berniesanders', '#feelthebern'],
-                                   5: ['Ted Cruz', 'Cruz', '#ChooseCruz', '#tedcruz', '#cruz', '#CruzFiorina2016',
-                                       '#Cruz2016'],
-                                   6: ['John Kasich', '#JohnKasich', '#Kasich2016', '#Kasich4Us', 'Kasich'],
-                                   7: ['Democrat', 'Democrats', '#democrat', '#left', '#Democratic', '#liberal'],
-                                   8: ['Republican', 'Republicans', '#GOP', '#Republican', '#rightwing',
-                                       '#conservative']}
-        self._news_org_dict = {1: 'nytimes', 2: 'CNN', 3: 'WSJ', 4: 'TIME', 5: 'FoxNews',
-                                6: 'washingtonpost', 7: 'ABC', 8: 'CBSNews', 9: 'NBCNews', 10: 'Newsweek'}
+        self._search_term_dict = {1: ['OnShift'],
+                                  2: ['SeniorLiving'],
+                                  3: ['PBJ'],
+                                  4: ['SkilledNursing'],
+                                  5: ['Argentum'],
+                                  6: ['PostAcute'],
+                                  7: ['HackDay'],
+                                  8: ['OnShift OR SeniorLiving OR HackDay OR SkilledNursing OR Argentum OR PostAcute OR PBJ']}
 
     @property
     def auth(self):
@@ -74,10 +69,10 @@ class UserInterface(object):
     @staticmethod
     def greeting():
         print("******************************************************************************************************")
-        print('                                  Election 2016 Twitter Tracker')
+        print('                                     OnShift Twitter Tracker')
         print("******************************************************************************************************")
-        print('This app uses the Twitter API (often via Tweepy) to search for tweets related to the 2016 US')
-        print('Presidential Election.  The search can be done either from the recent past, or from the live Twitter')
+        print('This app uses the Twitter API (often via Tweepy) to search for tweets that mention OnShift or')
+        print('related terms.  The search can be done either from the recent past, or from the live Twitter')
         print('Stream. After a search is completed, you will be presented the tweets that met the search criteria,')
         print('along with an option to view one or more of the tweets in your browser.')
 
@@ -85,8 +80,8 @@ class UserInterface(object):
         print('')
         print('OPTIONS:')
         print('--------')
-        print('1) Search for recent news-oriented Election 2016 tweets')
-        print('2) Collect live Election 2016 tweets from the Twitter stream')
+        print('1) Search for recent OnShift-related tweets')
+        print('2) Collect live OnShift tweets from the Twitter stream')
         print('')
         choice = raw_input('PICK 1 or 2: ')
         self.handle_recent_or_live_choice(choice)
@@ -94,16 +89,17 @@ class UserInterface(object):
     def handle_recent_or_live_choice(self, choice):
         """Take in the user's choice from the top menu and handle it accordingly."""
         if choice == '1':
-            self.ask_for_org()
+            print('')
+            print('You chose to search for recent tweets.')
             self.present_search_term_options()
-            self.ask_for_search_terms(org=self._news_org)
+            self.ask_for_search_terms()
             self.ask_num_tweets_search()
             self.activate_news_org_search(self._num_tweets)
         elif choice == '2':
             print('')
-            print("You chose to collect live tweets concerning Election 2016.")
+            print("You chose to collect live tweets.")
             self.present_search_term_options()
-            self.ask_for_search_terms(org=None)
+            self.ask_for_search_terms()
             self.ask_num_tweets_live()
             self.activate_stream_listener(self._num_tweets)
         else:
@@ -121,18 +117,17 @@ class UserInterface(object):
         Method for RECENT or LIVE tweets
         """
         print('')
-        print("Here are eight groups of terms related to the 2016 US Presidential Election:")
-        print("1) #Election2016")
-        print("2) Hillary, Clinton, #ImWithHer, #HillaryClinton, #Hillary2016")
-        print("3) 'Donald Trump', Trump, #MakeAmericaGreatAgain, #Trump, #trumptrain, #donaldtrump, "
-              "#Trump2016")
-        print("4) Bernie, Sanders, #Bernie2016, #berniesanders, #feelthebern")
-        print("5) 'Ted Cruz', Cruz, #ChooseCruz, #tedcruz, #cruz, #CruzFiorina2016, #Cruz2016")
-        print("6) 'John Kasich', Kasich, #JohnKasich, #Kasich2016, #Kasich4Us")
-        print("7) Democrat, Democrats, #democrat, #left, #Democratic, #liberal")
-        print("8) Republican, Republicans, #GOP, #Republican, #rightwing, #conservative")
+        print("Here are terms related to OnShift that you could include in your search:")
+        print("1) OnShift")
+        print("2) SeniorLiving")
+        print("3) PBJ")
+        print("4) SkilledNursing")
+        print("5) Argentum")
+        print("6) PostAcute")
+        print("7) HackDay")
+        print("8) Any of the above")
 
-    def ask_for_search_terms(self, org):
+    def ask_for_search_terms(self):
         """Ask user which search term they want to use, and set their choice
 
         Method for RECENT or LIVE tweets
@@ -146,45 +141,12 @@ class UserInterface(object):
         # User response is accepted; pick search term from the search_term_dict
         search_term = self._search_term_dict[int(term)]
         # Create search string and store in self._search_terms variable
-        if type(search_term) is list and org:
+        if type(search_term) is list:
             for term in search_term[:-1]:
-                self._search_terms = self._search_terms + term + ' ' + org + ' OR '
-            self._search_terms = self._search_terms + search_term[-1] + ' ' + org
+                self._search_terms = self._search_terms + term + ' OR '
+            self._search_terms = self._search_terms + search_term[-1]
         else:
             self._search_terms = search_term
-
-    def ask_for_org(self):
-        """Ask user which news organization they want to include as a search term
-
-        Method for RECENT tweets only
-        """
-        print('')
-        print('You chose to search for recent news-oriented Election 2016 tweets. In order to increase the chance')
-        print('that quality content will be found, the search will look specifically for tweets that mention a ')
-        print('popular news organization, or are from a news organization.')
-        print('')
-        print("Here are ten top news organizations you can include in the search:")
-        print("1) The New York Times")
-        print("2) CNN")
-        print("3) Wall Street Journal")
-        print("4) TIME.com")
-        print("5) Fox News")
-        print("6) Washington Post")
-        print("7) ABC News")
-        print("8) CBS News")
-        print("9) NBC News")
-        print("10) Newsweek")
-        print('')
-        org_id = raw_input('Which news organization do you want (enter number)? ')
-        # Handle invalid responses
-        while not org_id.isdigit() or '-' in org_id or int(org_id) > 10 or int(org_id) <= 0:
-            org_id = raw_input('Invalid choice.'
-                               'Please enter a digit corresponding to the news organization '
-                               'you want to include in the search: ')
-        # User response is accepted; pick news organization's Twitter username from news_org_dict
-        news_org = self._news_org_dict[int(org_id)]
-        # Store selected news organization's Twitter username
-        self._news_org = news_org
 
     def ask_num_tweets_search(self):
         """Ask user how many tweets to search for
@@ -192,8 +154,7 @@ class UserInterface(object):
         Method for RECENT tweets only
         """
         print('')
-        tweets_wanted = raw_input('How many election-related tweets do you want to obtain that are from, '
-                                  'or mention, @{0} (MAX=100)? '.format(self._news_org))
+        tweets_wanted = raw_input('How many OnShift-related tweets do you want to obtain (MAX=100)? ')
         # Handle invalid responses
         while not tweets_wanted.isdigit() or not 0 < int(tweets_wanted) < 101:
             tweets_wanted = raw_input('Invalid choice. Please enter a digit between 1 and 100: ')
@@ -265,7 +226,7 @@ class UserInterface(object):
                     line_of_tweet = raw_input("Invalid response.  Please enter a number corresponding to the tweet "
                                               "you'd like to view online: ")
                 # Open the JSON file for reading and grab everything in there, then close the file
-                with open('app/data/election.json', 'r') as data_file:
+                with open('app/data/tweets.json', 'r') as data_file:
                     data = json.load(data_file)
                 data_file.close()
                 # Store the id string (id_str) of the desired tweet in the tweet_id variable

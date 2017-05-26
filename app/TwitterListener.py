@@ -22,20 +22,21 @@ class TwitterListener(StreamListener):
         """When a tweet comes along the Twitter stream that matches our search criteria, grab it, print it to the user,
         and store it for future reference, in case the user wants to view the tweet on the web
         """
+        tweet = json.loads(data)
+        # Print the tweet text to the screen
+        print("{0})".format(str(self._tweets_collected + 1)))
+        print("{0}".format(tweet['text'].encode('UTF-8')))
+        print("User:      {0} (@{1})".format(tweet['user']['name'].encode('UTF-8'),
+                                             tweet['user']['screen_name'].encode('UTF-8')))
+        print("Retweeted: {0} times".format(tweet['retweet_count']))
+        print("Favorited: {0} times".format(tweet['favorite_count']))
+        print("Created:   {0}".format(tweet['created_at']))
+        print("--------------------------------------------------------------------------------------------------")
+        # Store the tweet object in a dict, and increment the tweets_collected counter
+        self._all_collected_tweets_json['Tweet' + str(self._tweets_collected + 1)] = tweet
+        self._tweets_collected += 1
         # Make sure we aren't collecting more tweets than what the user requested
         if self._tweets_collected < int(self._max_tweets):
-            tweet = json.loads(data)
-            # Print the tweet text to the screen
-            print("{0})".format(str(self._tweets_collected + 1)))
-            print("{0}".format(tweet['text'].encode('UTF-8')))
-            print("User:      {0} (@{1})".format(tweet['user']['name'].encode('UTF-8'), tweet['user']['screen_name'].encode('UTF-8')))
-            print("Retweeted: {0} times".format(tweet['retweet_count']))
-            print("Favorited: {0} times".format(tweet['favorite_count']))
-            print("Created:   {0}".format(tweet['created_at']))
-            print("--------------------------------------------------------------------------------------------------")
-            # Store the tweet object in a dict, and increment the tweets_collected counter
-            self._all_collected_tweets_json['Tweet' + str(self._tweets_collected+1)] = tweet
-            self._tweets_collected += 1
             return True
         else:
             return False
@@ -46,7 +47,7 @@ class TwitterListener(StreamListener):
         """
         try:
             # Open JSON file, delete file contents, write stored Twitter objects to the file, close file
-            with open('app/data/election.json', 'w') as f:
+            with open('app/data/tweets.json', 'w') as f:
                 f.write(json.dumps(self._all_collected_tweets_json))
                 f.close()
                 return True
